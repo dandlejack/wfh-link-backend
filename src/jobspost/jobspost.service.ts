@@ -48,7 +48,6 @@ export class JobsPostService {
                 totalPage: totalPage,
                 message: "success"
             };
-            console.log(result)
             return result
         } else if (filterObject.province !== undefined || filterObject.work_select !== undefined) {
             if(filterObject.province !== undefined && filterObject.work_select === undefined){
@@ -66,12 +65,9 @@ export class JobsPostService {
                     totalPage: totalPage,
                     message: "success"
                 };    
-                console.log(2)
                 return result
             }else if(filterObject.province === undefined && filterObject.work_select !== undefined){
                 console.log('line84')
-                console.log(3)
-
             }else{
                 const provinceSplit = filterObject.province.split(',')
                 const filterStore = {
@@ -82,7 +78,6 @@ export class JobsPostService {
                         $in:filterObject.work_select
                     }
                 }
-                console.log(4)
                 const results = await this.productModel.find(filterStore).skip(skip).limit(limits).exec()
                 const result = {
                     data: results,

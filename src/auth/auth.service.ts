@@ -13,7 +13,9 @@ export class AuthService {
   constructor(@InjectModel('users') private userModel: Model<UsersProps>,private jwtService: JwtService) { }
   async login(req, res) {
     const result = await this.validateUser(req.body.email, req.body.password)
-    if(result.checking){
+    console.log(result)
+    if(result !== null){
+      if(result.checking)
       return res.send({
         token: this.createToken(result),
         user: result
