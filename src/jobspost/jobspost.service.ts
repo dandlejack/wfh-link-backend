@@ -144,7 +144,7 @@ export class JobsPostService {
     }    
 
     async findByUserID(req,res) {
-        const params = req.query
+        const params = req.query 
         const pageNumber = Number(params.pageNumber || "1");
         const limits = Number(params.limitPage || '20')
         const filterObject = req.query.filterObject && JSON.parse(req.query.filterObject as string) || {};
