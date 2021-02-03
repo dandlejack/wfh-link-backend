@@ -34,9 +34,9 @@ export class JobsPost {
     @Prop()
     company_description: string;
     @Prop()
-    title_image: Array<Object>;
+    title_image: string;
     @Prop()
-    logo_image: Array<Object>;
+    logo_image: string;
     @Prop()
     all_works:string;
     @Prop()
@@ -69,8 +69,8 @@ export interface JobsPostProps {
     benefits:Array<Object>
     company_name:string
     company_description: string;
-    title_image: Array<Object>;
-    logo_image: Array<Object>;
+    title_image: string;
+    logo_image: string;
     all_works:string;
     all_province:string;
     date: Date;
