@@ -1,0 +1,1 @@
+export const BACKEND_API = 'http://104.198.108.130/api/'

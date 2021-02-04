@@ -1,6 +1,7 @@
 import { Controller, Post, UseInterceptors, UploadedFile, UploadedFiles, Get, Res, Param, HttpStatus } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from 'multer'
+import { BACKEND_API } from '../../server.configs'
 import { editFileName } from '../util/file-upload'
 @Controller('photos')
 export class PhotosController {
@@ -12,7 +13,7 @@ export class PhotosController {
         })
     }))
     uploadSingle(@UploadedFile() file) {
-        const imagePath = `http://localhost:4000/photos/${file.filename}`
+        const imagePath = `http://${BACKEND_API}/photos/${file.filename}`
         return imagePath
     }
 
@@ -25,8 +26,8 @@ export class PhotosController {
     }))
     uploadMultiple(@UploadedFiles() files) {
         const filesPath = {
-            titleImage: `http://localhost:4000/photos/${files[0].filename}`,
-            logo:`http://localhost:4000/photos/${files[1].filename}`
+            titleImage: `http://${BACKEND_API}/photos/${files[0].filename}`,
+            logo: `http://${BACKEND_API}/photos/${files[1].filename}`
         }
         return filesPath
     }
