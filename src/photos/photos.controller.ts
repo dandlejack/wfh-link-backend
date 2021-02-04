@@ -13,7 +13,7 @@ export class PhotosController {
         })
     }))
     uploadSingle(@UploadedFile() file) {
-        const imagePath = `http://${BACKEND_API}/photos/${file.filename}`
+        const imagePath = `${BACKEND_API}/photos/${file.filename}`
         return imagePath
     }
 
@@ -26,8 +26,8 @@ export class PhotosController {
     }))
     uploadMultiple(@UploadedFiles() files) {
         const filesPath = {
-            titleImage: `http://${BACKEND_API}/photos/${files[0].filename}`,
-            logo: `http://${BACKEND_API}/photos/${files[1].filename}`
+            titleImage: `${BACKEND_API}/photos/${files[0].filename}`,
+            logo: `${BACKEND_API}/photos/${files[1].filename}`
         }
         return filesPath
     }
