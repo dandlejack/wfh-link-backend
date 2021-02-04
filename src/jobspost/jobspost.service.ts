@@ -89,6 +89,16 @@ export class JobsPostService {
                 return result
             }
            
+        }else{
+            const results = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
+            const result = {
+                data: results,
+                totalDocument: totalDocument,
+                pageNumber: pageNumber,
+                totalPage: totalPage,
+                message: "success"
+            };    
+            return result
         }
 
         // if (filterObject.province !== undefined) {            
