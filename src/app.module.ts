@@ -9,9 +9,12 @@ import { JobsPostModule } from './jobspost/jobspost.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PhotosModule } from './photos/photos.module';
+import { ToptenController } from './topten/topten.controller';
+import { ToptenService } from './topten/topten.service';
+import { ToptenModule } from './topten/topten.module';
 
 @Module({
-  imports: [CustomerModule,PaidModule,  ReceivedModule, JobsPostModule, AuthModule, UsersModule, PhotosModule,
+  imports: [CustomerModule,PaidModule,  ReceivedModule, JobsPostModule, AuthModule, UsersModule, PhotosModule, ToptenModule,
      MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
     connectionName: 'customer'
   }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
@@ -22,8 +25,10 @@ import { PhotosModule } from './photos/photos.module';
     connectionName: 'jobspost'
   }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
     connectionName: 'users'
-  })],
+  }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
+    connectionName: 'toptens'
+  }) ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

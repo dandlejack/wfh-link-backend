@@ -34,12 +34,13 @@ export class JobsPostService {
     async findAll(req, res) {
         const params = req.query
         const pageNumber = Number(params.pageNumber || "1");
-        const limits = Number(params.limitPage || '4')
+        const limits = Number(params.limitPage || '30')
         const filterObject = req.query.filterObject && JSON.parse(req.query.filterObject as string) || {};
         const skip = (pageNumber - 1) * limits;
         const totalDocument = await this.productModel.countDocuments(filterObject);
         const totalPage = Math.ceil(totalDocument / limits);
         if (filterObject.all_province !== undefined || filterObject.all_works !== undefined) {
+            console.log(12312)
             const data = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
             const result = {
                 data: data,
@@ -49,8 +50,21 @@ export class JobsPostService {
                 message: "success"
             };
             return result
+        // }
+        //  else if (filterObject.company_name) {
+        //     const word = filterObject.company_name[0]
+        //     const data = await this.productModel.find({ $or: [{ company_name: { $in: new RegExp('^' + word, 'i') } }, { post_title: { $in: new RegExp('^' + word, 'i') } }] }).skip(skip).limit(limits).exec()
+            
+        //     const result = {
+        //         data: data,
+        //         totalDocument: totalDocument,
+        //         pageNumber: pageNumber,
+        //         totalPage: totalPage,
+        //         message: "success"
+        //     };
+        //     return result
         } else if (filterObject.province !== undefined || filterObject.work_select !== undefined) {
-            if(filterObject.province !== undefined && filterObject.work_select === undefined){
+            if (filterObject.province !== undefined && filterObject.work_select === undefined) {
                 const provinceSplit = filterObject.province.split(',')
                 const filterStore = {
                     province: {
@@ -64,18 +78,18 @@ export class JobsPostService {
                     pageNumber: pageNumber,
                     totalPage: totalPage,
                     message: "success"
-                };    
+                };
                 return result
-            }else if(filterObject.province === undefined && filterObject.work_select !== undefined){
+            } else if (filterObject.province === undefined && filterObject.work_select !== undefined) {
                 console.log('line84')
-            }else{
+            } else {
                 const provinceSplit = filterObject.province.split(',')
                 const filterStore = {
                     province: {
                         $in: provinceSplit
                     },
                     work_select: {
-                        $in:filterObject.work_select
+                        $in: filterObject.work_select
                     }
                 }
                 const results = await this.productModel.find(filterStore).skip(skip).limit(limits).exec()
@@ -85,11 +99,12 @@ export class JobsPostService {
                     pageNumber: pageNumber,
                     totalPage: totalPage,
                     message: "success"
-                };    
+                };
                 return result
             }
-           
-        }else{
+
+        } else {
+            console.log(1)
             const results = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
             const result = {
                 data: results,
@@ -97,7 +112,7 @@ export class JobsPostService {
                 pageNumber: pageNumber,
                 totalPage: totalPage,
                 message: "success"
-            };    
+            };
             return result
         }
 
@@ -151,26 +166,27 @@ export class JobsPostService {
         // };
         // return result
 
-    }    
+    }
 
-    async findByUserID(req,res) {
-        const params = req.query 
+    async findByUserID(req, res) {
+        console.log(req)
+        const params = req.query
         const pageNumber = Number(params.pageNumber || "1");
-        const limits = Number(params.limitPage || '20')
+        const limits = Number(params.limitPage || '30')
         const filterObject = req.query.filterObject && JSON.parse(req.query.filterObject as string) || {};
         const skip = (pageNumber - 1) * limits;
         const totalDocument = await this.productModel.countDocuments(filterObject);
         const totalPage = Math.ceil(totalDocument / limits);
-        
+
         const data = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
-            const result = {
-                data: data,
-                totalDocument: totalDocument,
-                pageNumber: pageNumber,
-                totalPage: totalPage,
-                message: "success"
-            };
-            return result
+        const result = {
+            data: data,
+            totalDocument: totalDocument,
+            pageNumber: pageNumber,
+            totalPage: totalPage,
+            message: "success"
+        };
+        return result
     }
 
     async findAds(req, res) {

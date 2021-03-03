@@ -13,7 +13,7 @@ export class JobsPostController {
     @Get('/findall')
      async findAll(@Req() req: Request, @Res() res: Response){
             const result = await this.jobsPostService.findAll(req,res)
-            res.send(result);             
+            res.send(result);
     }
 
     @Get('/findAds')
