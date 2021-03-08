@@ -15,6 +15,10 @@ export class Users {
     @Prop()
     lastname: string;
     @Prop()
+    lineID: string;
+    @Prop()
+    telNumber: string;
+    @Prop()
     createdDate: Date;
     @Prop()
     updateDate: Date;
@@ -23,6 +27,8 @@ export interface UsersProps {
     _id: string;
     email:string;
     password:string;
+    lineID: string;
+    telNumber: string;
     role:string
     createdDate: Date;
     updateDate: Date;
