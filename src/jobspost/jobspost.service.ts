@@ -167,7 +167,6 @@ export class JobsPostService {
     }
 
     async findByUserID(req, res) {
-        console.log(req)
         const params = req.query
         const pageNumber = Number(params.pageNumber || "1");
         const limits = Number(params.limitPage || '30')
@@ -199,8 +198,8 @@ export class JobsPostService {
         const endCurDate = new Date(splitDate[0] + endTime)
         var last7Days = new Date(curDate.getTime() - (days * 24 * 60 * 60 * 1000));
         const filterObject = {
-            user_id: {
-                $ne: '60002aac6168b58218542529'
+            role: {
+                $ne: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do='
             },
         }
         const sortOrberBy = {
