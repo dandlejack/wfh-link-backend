@@ -12,7 +12,7 @@ export class JobsPostService {
 
     async insert(data: JobsPostProps) {
         const curDate = new Date(Date.now())
-        const splitSpaceTitle = data.post_title.replace(/\s/g, '-')
+        const splitSpaceTitle = data.post_title.replace(/\/\s/g, '-')
         const splitDate = curDate.toISOString().split('T')[0].split('-')
         if (splitDate[1] !== "0") {
             const date = new Date(splitDate["0"], splitDate["1"] - 1, splitDate["2"]).toDateString().split(' ')
@@ -40,7 +40,6 @@ export class JobsPostService {
         const totalDocument = await this.productModel.countDocuments(filterObject);
         const totalPage = Math.ceil(totalDocument / limits);
         if (filterObject.all_province !== undefined || filterObject.all_works !== undefined) {
-            console.log(12312)
             const data = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
             const result = {
                 data: data,
@@ -104,7 +103,6 @@ export class JobsPostService {
             }
 
         } else {
-            console.log(1)
             const results = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
             const result = {
                 data: results,
