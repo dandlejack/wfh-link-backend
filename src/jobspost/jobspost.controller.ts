@@ -22,6 +22,12 @@ export class JobsPostController {
             res.send(result);             
     }
 
+    @Get('/findCompanyRequired')
+     async findCompanyRequired(@Req() req: Request, @Res() res: Response){
+            const result = await this.jobsPostService.findLatestCompanyRequired(req,res)
+            res.send(result);
+    }
+
     @Get('/findByUserID')
     async findByUserId(@Req() req:Request, @Res() res: Response){
         const result = await this.jobsPostService.findByUserID(req,res)

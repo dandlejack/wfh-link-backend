@@ -13,6 +13,12 @@ export class UserController {
         const result = await this.usersService.findAll(req,res)
         res.send(result);     
     }
+    
+    @Get('/findUsersAds')
+    async findUsersAds(@Req() req: Request, @Res() res: Response){
+        const result = await this.usersService.findUsersAds(req,res)
+        res.send(result);     
+    }
 
     @Get('/:id')
     findById(@Param('id') id:string){

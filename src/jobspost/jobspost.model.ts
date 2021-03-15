@@ -50,6 +50,8 @@ export class JobsPost {
     @Prop()
     all_province:string;
     @Prop()
+    required_worker:number;
+    @Prop()
     date: Date;
     @Prop()
     role:string
@@ -85,6 +87,7 @@ export interface JobsPostProps {
     logo_image: string;
     all_works:string;
     all_province:string;
+    required_worker:number;
     date: Date;
     role:string;
     user_id:string;

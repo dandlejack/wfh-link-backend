@@ -6,6 +6,8 @@ import { PaidProps } from 'src/paid/paid.model';
 import { removeDuplicate } from 'src/util/removeDuplicate';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import e from 'express';
+import { link } from 'fs';
+import { shuffleArray } from 'src/util/shuffleArray';
 @Injectable()
 export class JobsPostService {
     constructor(@InjectModel('jobspost') private productModel: Model<JobsPostProps>) { }
@@ -49,24 +51,11 @@ export class JobsPostService {
                 message: "success"
             };
             return result
-        // }
-        //  else if (filterObject.company_name) {
-        //     const word = filterObject.company_name[0]
-        //     const data = await this.productModel.find({ $or: [{ company_name: { $in: new RegExp('^' + word, 'i') } }, { post_title: { $in: new RegExp('^' + word, 'i') } }] }).skip(skip).limit(limits).exec()
-            
-        //     const result = {
-        //         data: data,
-        //         totalDocument: totalDocument,
-        //         pageNumber: pageNumber,
-        //         totalPage: totalPage,
-        //         message: "success"
-        //     };
-        //     return result
         } else if (filterObject.province !== undefined || filterObject.work_select !== undefined) {
             if (filterObject.province !== undefined && filterObject.work_select === undefined) {
                 const provinceSplit = filterObject.province.split(',')
                 const filterStore = {
-                    province: {
+                    work_type: {
                         $in: provinceSplit
                     }
                 }
@@ -222,6 +211,27 @@ export class JobsPostService {
         return result
     }
 
+    async findLatestCompanyRequired(req,res){
+        const adminLimits = 3
+        const limits = 17
+        const AdminfilterObject = {
+            role: {
+                $eq: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do='
+            },
+        }
+        const filterObject = {
+            role: {
+                $ne: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do='
+            },
+        }
+        const adminCompanyData = await this.productModel.find(AdminfilterObject).limit(adminLimits).exec();
+        const userCompanyData = await this.productModel.find(filterObject).limit(limits).exec();
+        const mergeData = adminCompanyData.concat(userCompanyData).sort(()=>Math.random() - 0.5)
+        const reduceData = mergeData.map(data=>{
+            return {company_name:data.company_name,required_worker:data.required_worker}
+        })
+        return reduceData
+    }
     async findById(id: string) {
         return await this.productModel.find({ _id: id }).exec();
     }
