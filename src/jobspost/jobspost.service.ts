@@ -103,56 +103,6 @@ export class JobsPostService {
             return result
         }
 
-        // if (filterObject.province !== undefined) {            
-        //     const provinceSplit = filterObject.province.split(',')
-        //     const filterStore = {
-        //         province:{
-        //             $in:provinceSplit
-        //         }
-        //     }
-        //     const results = await this.productModel.find(filterStore).skip(skip).limit(limits).exec()
-        //     const result = {
-        //         data: results,
-        //         totalDocument: totalDocument,
-        //         pageNumber: pageNumber,
-        //         totalPage: totalPage,
-        //         message: "success"
-        //     };
-
-        //     return result
-        // } else {
-        //     if(filterObject.company_name){
-        //         const word = filterObject.company_name[0]    
-        //         const data = await this.productModel.find( { $or: [ { company_name: { $in: new RegExp('^'+word,'i') } },{post_title:{$in:new RegExp('^'+word,'i')}}]}).skip(skip).limit(limits).exec()
-        //         const result = {
-        //             data: data,
-        //             totalDocument: totalDocument,
-        //             pageNumber: pageNumber,
-        //             totalPage: totalPage,
-        //             message: "success"
-        //         };
-        //         return result
-        //     }else{
-        //         const data = await this.productModel.find(filterObject).skip(skip).limit(limits).exec()
-        //         const result = {
-        //             data: data,
-        //             totalDocument: totalDocument,
-        //             pageNumber: pageNumber,
-        //             totalPage: totalPage,
-        //             message: "success"
-        //         };
-        //         return result
-        //     }
-        // }
-        // const result = {
-        //     data: queryData,
-        //     totalDocument: totalDocument,
-        //     pageNumber: pageNumber,
-        //     totalPage: totalPage,
-        //     message: "success"
-        // };
-        // return result
-
     }
 
     async findByUserID(req, res) {
@@ -194,6 +144,27 @@ export class JobsPostService {
         const sortOrberBy = {
             createdDate: -1
         }
+
+        const userData = await this.productModel.find(filterObject).sort(sortOrberBy).limit(adsLimit).exec()
+        const result = {
+            data: userData,
+            message: "success"
+        };
+        return result
+    }
+    
+    async findAdsAdmin(req,res){
+        const adminAdslimits = 3
+        const getDateNow = new Date(Date.now())
+        const startTime = 'T00:00:00.000Z'
+        const endTime = 'T23:59:59.999Z'
+        const splitDate = getDateNow.toISOString().split('T')
+        const curDate = new Date(splitDate[0] + startTime)
+        const endCurDate = new Date(splitDate[0] + endTime)
+        
+        const sortOrberBy = {
+            createdDate: -1
+        }
         const filterCreatedDate = {
             role: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do=', //'60002aac6168b58218542529',Admin id
             createdDate: {
@@ -201,11 +172,9 @@ export class JobsPostService {
             }
         }
 
-        const userData = await this.productModel.find(filterObject).sort(sortOrberBy).limit(adsLimit).exec()
         const adminData = await this.productModel.find(filterCreatedDate).sort(sortOrberBy).limit(adminAdslimits).exec()
-        const mergeData = adminData.concat(userData)
         const result = {
-            data: mergeData,
+            data: adminData,
             message: "success"
         };
         return result
@@ -213,7 +182,7 @@ export class JobsPostService {
 
     async findLatestCompanyRequired(req,res){
         const adminLimits = 3
-        const limits = 17
+        const limits = 10
         const AdminfilterObject = {
             role: {
                 $eq: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do='
