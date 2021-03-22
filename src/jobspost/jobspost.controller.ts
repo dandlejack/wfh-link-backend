@@ -23,7 +23,7 @@ export class JobsPostController {
     }
     @Get('/findSponserAds')
      async findAdsAdmin(@Req() req: Request, @Res() res: Response){
-            const result = await this.jobsPostService.findAds(req,res)
+            const result = await this.jobsPostService.findAdsAdmin(req,res)
             res.send(result);             
     }
 
