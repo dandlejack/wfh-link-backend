@@ -14,10 +14,14 @@ export class UsersService {
     }
 
     async findUsersAds(req, res) {
-        const limits = 20
-        const filterObject = req.query.filterObject && JSON.parse(req.query.filterObject as string) || {};
+        const limits = 10
         const sortOrberBy = {
             createdDate: -1
+        }
+        const filterObject = {
+            role: {
+                $ne: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do='
+            },
         }
         const userData = await this.userModel.find(filterObject).sort(sortOrberBy).limit(limits).exec()
         const result = userData.map((data:any) => {
