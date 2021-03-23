@@ -8,13 +8,18 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
 import e from 'express';
 import { link } from 'fs';
 import { shuffleArray } from 'src/util/shuffleArray';
+import { text } from 'body-parser';
 @Injectable()
 export class JobsPostService {
     constructor(@InjectModel('jobspost') private productModel: Model<JobsPostProps>) { }
 
     async insert(data: JobsPostProps) {
         const curDate = new Date(Date.now())
-        const splitSpaceTitle = data.post_title.replace(/\/\s/g, '-')
+        const test = data.post_title.split('/')
+        if(test.length > 1){
+            data.post_id = test.join('-') + '-' + Math.floor(Math.random() * 1000000) + 1
+        }
+        // const splitSpaceTitle = data.post_title.replace(/\/\s/g, '-')
         const splitDate = curDate.toISOString().split('T')[0].split('-')
         if (splitDate[1] !== "0") {
             const date = new Date(splitDate["0"], splitDate["1"] - 1, splitDate["2"]).toDateString().split(' ')
@@ -25,7 +30,7 @@ export class JobsPostService {
             const newDate = date[2] + ' ' + date[1] + ' ' + date[3]
             data.post_date = newDate
         }
-        data.post_id = splitSpaceTitle + '-' + Math.floor(Math.random() * 1000000) + 1
+        // data.post_id = splitSpaceTitle + '-' + Math.floor(Math.random() * 1000000) + 1
         data.createdDate = curDate
         data.updateDate = curDate
         const createdProduct = new this.productModel(data)
@@ -182,7 +187,7 @@ export class JobsPostService {
 
     async findLatestCompanyRequired(req,res){
         const adminLimits = 3
-        const limits = 10
+        const limits = 7
         const AdminfilterObject = {
             role: {
                 $eq: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do='
