@@ -6,29 +6,21 @@ import { CoTestService } from './cotest.service';
 export class CotestController {
     constructor(private cotestService: CoTestService) {
     }
-    @Post()
-    insert(@Body() data: any) {
-        return this.cotestService.insert(data)
-    }
+    
 
     @Get('/findall')
     async findAll(@Req() req: Request, @Res() res: Response) {
         const result = await this.cotestService.findAll(req, res)
         res.send(result);
     }
-    @Get('/findlastest')
+    @Get('/newUpdate')
     async findLastest(@Req() req: Request, @Res() res: Response) {
-        const result = await this.cotestService.findLatestDate(req, res)
-        res.send(result);
-    }
-    @Get('/post/topten/:id')
-    async findPostById(@Param('id') id: string) {
-        const result = await this.cotestService.findById(id)
-        return result
-    }
-    @Get('/findMaxValue')
-    async findMax(@Req() req: Request, @Res() res: Response) {
-        const result = await this.cotestService.findMax(req, res)
-        res.send(result);
+        const checkDate = await this.cotestService.findHaveCurDate(req, res)
+        if(checkDate.length>0){
+            await this.cotestService.incrementCount(checkDate[0])
+        }else{
+            await this.cotestService.insert()
+        }
+        res.send({status:'successful'});
     }
 }
