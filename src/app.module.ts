@@ -9,12 +9,12 @@ import { JobsPostModule } from './jobspost/jobspost.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PhotosModule } from './photos/photos.module';
-import { ToptenController } from './topten/topten.controller';
-import { ToptenService } from './topten/topten.service';
 import { ToptenModule } from './topten/topten.module';
+import { WebcounterModule } from './webcounter/webcounter.module';
+import { CoTestModule } from './cotest/cotest.module';
 
 @Module({
-  imports: [CustomerModule,PaidModule,  ReceivedModule, JobsPostModule, AuthModule, UsersModule, PhotosModule, ToptenModule,
+  imports: [CustomerModule,PaidModule,  ReceivedModule, JobsPostModule, AuthModule, UsersModule, PhotosModule, ToptenModule,CoTestModule, WebcounterModule,
      MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
     connectionName: 'customer'
   }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
@@ -27,6 +27,8 @@ import { ToptenModule } from './topten/topten.module';
     connectionName: 'users'
   }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
     connectionName: 'toptens'
+  }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
+    connectionName: 'webcounters'
   }) ],
   controllers: [AppController],
   providers: [AppService]
