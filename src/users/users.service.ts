@@ -5,6 +5,8 @@ import { Model } from 'mongoose'
 import * as bcrypt from 'bcrypt';
 import { generateReferralId } from 'src/util/shuffleArray';
 import * as macaddress from 'macaddress'
+import * as ReqIpAddress from 'request-ip'
+
 @Injectable()
 export class UsersService {
     constructor(@InjectModel('users') private userModel: Model<UsersProps>) { }
@@ -26,7 +28,7 @@ export class UsersService {
             },
         }
         const userData = await this.userModel.find(filterObject).sort(sortOrberBy).limit(limits).exec()
-        const result = userData.map((data:any) => {
+        const result = userData.map((data: any) => {
             return {
                 firstname: data.firstname,
                 telNumber: data.telNumber
@@ -76,13 +78,15 @@ export class UsersService {
 
     }
 
-    async findByReferralID(refID: string) {
+    async findByReferralID(refID: string, req) {
         console.log(refID)
-        const data = await this.userModel.find({myReferral:refID})
-          const getMacAddress = await macaddress.one().then(res=>{
-              console.log(res)
-              return res
-          })
-        return getMacAddress
+        const t = ReqIpAddress.getClientIp(req)
+        console.log(t)
+        const data = await this.userModel.find({ myReferral: refID })
+        const getMacAddress = await macaddress.one().then(res => {
+            console.log(res)
+            return res
+        })
+        return t
     }
 }

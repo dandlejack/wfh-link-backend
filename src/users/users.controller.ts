@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { UsersProps } from './users.model';
 import { UsersService } from './users.service';
 
-
 @Controller('users')
 export class UserController {
     constructor(private usersService:UsersService){
@@ -25,8 +24,8 @@ export class UserController {
         return this.usersService.findById(id)        
     }
     @Get('/referral/:id')
-    findByReferralId(@Param('id') id:string){
-        return this.usersService.findByReferralID(id)
+    findByReferralId(@Param('id') id:string, @Req() req:Request){
+        return this.usersService.findByReferralID(id,req)
     }
 
     @Post('/register')
