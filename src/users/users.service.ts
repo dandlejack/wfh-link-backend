@@ -101,7 +101,6 @@ export class UsersService {
         } else {
             data[0].lastestIpFromReferral.push(IpTimeSet)
             await this.userModel.updateOne({ myReferral: refID }, { $set: { lastestIpFromReferral: data[0].lastestIpFromReferral }, $inc: { clickRefCounter: 1 } })
-            await this.userModel.update({ myReferral: refID }, { $inc: { clickRefCounter: 1 }})
         }
         return 'success'
     }
