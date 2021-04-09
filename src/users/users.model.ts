@@ -23,6 +23,8 @@ export class Users {
     @Prop()
     lastestIpFromReferral:Array<Object>
     @Prop()
+    clickRefCounter:Number
+    @Prop()
     createdDate: Date;
     @Prop()
     updateDate: Date;
@@ -36,6 +38,7 @@ export interface UsersProps {
     role:string
     myReferral: string;
     lastestIpFromReferral:Array<Object>
+    clickRefCounter:Number
     createdDate: Date;
     updateDate: Date;
 }
