@@ -24,6 +24,10 @@ export class UserController {
     findById(@Param('id') id:string){
         return this.usersService.findById(id)        
     }
+    @Get('/referral/:id')
+    findByReferralId(@Param('id') id:string){
+        return this.usersService.findByReferralID(id)
+    }
 
     @Post('/register')
     insert(@Body() data:any){

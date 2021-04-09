@@ -60,6 +60,8 @@ export class JobsPost {
     @Prop()
     post_date: string;
     @Prop()
+    counter: Number;
+    @Prop()
     createdDate: Date;
     @Prop()
     updateDate: Date;
@@ -92,6 +94,7 @@ export interface JobsPostProps {
     role:string;
     user_id:string;
     post_date:string;
+    counter: Number;
     createdDate: Date;
     updateDate: Date;
 }

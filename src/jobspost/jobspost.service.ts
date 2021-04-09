@@ -33,6 +33,7 @@ export class JobsPostService {
         // data.post_id = splitSpaceTitle + '-' + Math.floor(Math.random() * 1000000) + 1
         data.createdDate = curDate
         data.updateDate = curDate
+        data.counter = 0
         const createdProduct = new this.productModel(data)
         createdProduct.save();
         return "Post Successful"
@@ -206,7 +207,17 @@ export class JobsPostService {
         })
         return reduceData
     }
+
+    async incrementCount(oldData) {
+        await this.productModel.updateOne({ _id: oldData._id }, {
+            $inc: { counter: 1 }
+        })
+    }
+
     async findById(id: string) {
+        await this.productModel.updateOne({ _id: id }, {
+            $inc: { counter: 1 }
+        })
         return await this.productModel.find({ _id: id }).exec();
     }
 

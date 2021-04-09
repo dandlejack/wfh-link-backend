@@ -7,3 +7,12 @@ export const shuffleArray = (data:Array<Object>) => {
     }
     return data
 }
+
+export const generateReferralId = (length) => {
+    let result = '';
+    const wordAll = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    for (let i = length; i>0; i--){
+        result += wordAll[Math.floor(Math.random()*wordAll.length)]
+    }
+    return result
+}

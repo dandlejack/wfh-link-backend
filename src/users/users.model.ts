@@ -19,6 +19,10 @@ export class Users {
     @Prop()
     telNumber: string;
     @Prop()
+    myReferral: string;
+    @Prop()
+    lastestIpFromReferral:Array<Object>
+    @Prop()
     createdDate: Date;
     @Prop()
     updateDate: Date;
@@ -30,6 +34,8 @@ export interface UsersProps {
     lineID: string;
     telNumber: string;
     role:string
+    myReferral: string;
+    lastestIpFromReferral:Array<Object>
     createdDate: Date;
     updateDate: Date;
 }

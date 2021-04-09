@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UsersProps } from './users.model';
 import { Model } from 'mongoose'
 import * as bcrypt from 'bcrypt';
+import { generateReferralId } from 'src/util/shuffleArray';
+import * as macaddress from 'macaddress'
 @Injectable()
 export class UsersService {
     constructor(@InjectModel('users') private userModel: Model<UsersProps>) { }
@@ -39,9 +41,11 @@ export class UsersService {
             const curDate = new Date(Date.now())
             const salt = await bcrypt.genSalt(10);
             const hash = await bcrypt.hash(data.password, salt);
+            const getReferral = generateReferralId(9)
             data.createdDate = curDate
             data.updateDate = curDate
             data.password = hash
+            data.myReferral = getReferral
             const newUser = new this.userModel(data)
             const createdNewUser = new this.userModel(newUser)
             createdNewUser.save();
@@ -70,5 +74,15 @@ export class UsersService {
 
     async deleteById(id: string) {
 
+    }
+
+    async findByReferralID(refID: string) {
+        console.log(refID)
+        const data = await this.userModel.find({myReferral:refID})
+          const getMacAddress = await macaddress.one().then(res=>{
+              console.log(res)
+              return res
+          })
+        return getMacAddress
     }
 }
