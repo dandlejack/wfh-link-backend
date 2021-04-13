@@ -24,22 +24,25 @@ export class CoTestService {
     async insert() {
         const curDate = new Date(Date.now())
         const curDateOnly = new Date(Date.now()).toISOString().split('T')[0]
-        const data:CoTestProps = {
-            date : curDateOnly,
-            counter : 1,
-            createdDate:curDate,
-            updateDate:curDate
+        const data: CoTestProps = {
+            date: curDateOnly,
+            counter: 1,
+            createdDate: curDate,
+            updateDate: curDate
         }
         const newCounter = new this.cotestModel(data)
         const createdCounter = new this.cotestModel(newCounter)
         return createdCounter.save();
     }
-    async findAll(req,res){
+    async findAll(req, res) {
         const limits = 7
+        const d = new Date();
+        d.setDate(d.getDate() - 7)
         const sorted = {
             "createdDate": 1
         }
-        const results = await this.cotestModel.find().sort(sorted).limit(limits).exec()
+        // const results = await this.cotestModel.find().limit(limits).exec()
+        const results = await this.cotestModel.aggregate([{ $match: { 'createdDate': { $gt: d } } }])
         return results
     }
 }
