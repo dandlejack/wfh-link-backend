@@ -29,7 +29,8 @@ export class AuthService {
       _id: data._id,
       firstname:data.firstname,
       email:data.email,
-      role:data.role
+      role:data.role,
+      myReferral:data.myReferral,
     };
     return this.jwtService.sign(payload)    
   }
@@ -45,6 +46,7 @@ export class AuthService {
           firstname:user.firstname,
           email:user.email,
           role:user.role,
+          myReferral:user.myReferral,
           checking:true
         }
         return data;

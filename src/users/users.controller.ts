@@ -23,6 +23,12 @@ export class UserController {
     findById(@Param('id') id:string){
         return this.usersService.findById(id)        
     }
+    
+    @Get('/counter/:id')
+    counterByReferralIDByReferralId(@Param('id') id:string, @Req() req:Request){
+        return this.usersService.counterByReferralID(id,req)
+    }
+
     @Get('/referral/:id')
     findByReferralId(@Param('id') id:string, @Req() req:Request){
         return this.usersService.findByReferralID(id,req)

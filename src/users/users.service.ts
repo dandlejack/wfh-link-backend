@@ -80,12 +80,22 @@ export class UsersService {
     }
 
     async findByReferralID(refID: string, req) {
+        const data = await this.userModel.find({ myReferral: refID })
+        const result = {
+            myReferral : data[0].myReferral,
+            clickRefCounter:data[0].clickRefCounter
+        }
+        return result
+    }
+
+    async counterByReferralID(refID: string, req) {
         const getCurrentClientIp = ReqIpAddress.getClientIp(req)
         const data = await this.userModel.find({ myReferral: refID })
         const IpTimeSet = {
             ip: getCurrentClientIp,
             dateTime: Date.now()
         }
+        console.log(refID)
         const checkIp = data[0].lastestIpFromReferral.find(d => d.ip === getCurrentClientIp)
 
         if (checkIp) {
