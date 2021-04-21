@@ -25,6 +25,8 @@ export class Users {
     @Prop()
     clickRefCounter:Number
     @Prop()
+    totalClickRefCounter:Number
+    @Prop()
     createdDate: Date;
     @Prop()
     updateDate: Date;
@@ -39,6 +41,7 @@ export interface UsersProps {
     myReferral: string;
     lastestIpFromReferral:Array<Object>
     clickRefCounter:Number
+    totalClickRefCounter:Number
     createdDate: Date;
     updateDate: Date;
 }

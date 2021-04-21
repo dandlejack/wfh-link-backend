@@ -4,9 +4,7 @@ import { UsersProps } from './users.model';
 import { Model } from 'mongoose'
 import * as bcrypt from 'bcrypt';
 import { generateReferralId } from 'src/util/shuffleArray';
-import * as macaddress from 'macaddress'
 import * as ReqIpAddress from 'request-ip'
-import e from 'express';
 
 @Injectable()
 export class UsersService {
@@ -82,8 +80,8 @@ export class UsersService {
     async findByReferralID(refID: string, req) {
         const data = await this.userModel.find({ myReferral: refID })
         const result = {
-            myReferral : data[0].myReferral,
-            clickRefCounter:data[0].clickRefCounter
+            myReferral: data[0].myReferral,
+            clickRefCounter: data[0].clickRefCounter
         }
         return result
     }
@@ -95,7 +93,6 @@ export class UsersService {
             ip: getCurrentClientIp,
             dateTime: Date.now()
         }
-        console.log(refID)
         const checkIp = data[0].lastestIpFromReferral.find(d => d.ip === getCurrentClientIp)
 
         if (checkIp) {
@@ -105,13 +102,17 @@ export class UsersService {
                 data[0].lastestIpFromReferral.map(data => {
                     if (data.ip === getCurrentClientIp) data.dateTime = dateNow
                 })
-                await this.userModel.update({ myReferral: refID }, { $set: { lastestIpFromReferral: data[0].lastestIpFromReferral }})
-                await this.userModel.update({ myReferral: refID }, { $inc: { clickRefCounter: 1 }})
+                await this.userModel.update({ myReferral: refID }, { $set: { lastestIpFromReferral: data[0].lastestIpFromReferral } })
+                await this.userModel.update({ myReferral: refID }, { $inc: { clickRefCounter: 1, totalClickRefCounter: 1 } })
             }
         } else {
             data[0].lastestIpFromReferral.push(IpTimeSet)
-            await this.userModel.updateOne({ myReferral: refID }, { $set: { lastestIpFromReferral: data[0].lastestIpFromReferral }, $inc: { clickRefCounter: 1 } })
+            await this.userModel.updateOne({ myReferral: refID }, { $set: { lastestIpFromReferral: data[0].lastestIpFromReferral }, $inc: { clickRefCounter: 1, totalClickRefCounter: 1 } })
         }
         return 'success'
+    }
+
+    async resetReferralCounterOfDay() {
+        await this.userModel.updateMany({ role: 'user' }, { $set: { clickRefCounter: 0 } })
     }
 }

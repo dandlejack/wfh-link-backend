@@ -12,6 +12,8 @@ import { PhotosModule } from './photos/photos.module';
 import { ToptenModule } from './topten/topten.module';
 import { WebcounterModule } from './webcounter/webcounter.module';
 import { CoTestModule } from './cotest/cotest.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksService } from './tasks/tasks.service';
 
 @Module({
   imports: [CustomerModule,PaidModule,  ReceivedModule, JobsPostModule, AuthModule, UsersModule, PhotosModule, ToptenModule,CoTestModule, WebcounterModule,
@@ -29,8 +31,8 @@ import { CoTestModule } from './cotest/cotest.module';
     connectionName: 'toptens'
   }), MongooseModule.forRoot('mongodb://localhost:27017/wfhjobs',{
     connectionName: 'webcounters'
-  }) ],
+  }),ScheduleModule.forRoot() ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, TasksService]
 })
 export class AppModule {}
