@@ -114,5 +114,6 @@ export class UsersService {
 
     async resetReferralCounterOfDay() {
         await this.userModel.updateMany({ role: 'user' }, { $set: { clickRefCounter: 0 } })
+        await this.userModel.updateMany({ role: '4y0h9WnLw/TjWXpwK9EZ4D7WCZaB9s/2U/sPcnup1do=' }, { $set: { clickRefCounter: 0 } })
     }
 }
