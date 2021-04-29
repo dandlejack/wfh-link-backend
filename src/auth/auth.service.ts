@@ -27,6 +27,7 @@ export class AuthService {
   createToken(data) {
     const payload = {
       _id: data._id,
+      user_id:data.user_id,
       firstname:data.firstname,
       email:data.email,
       role:data.role,
@@ -43,6 +44,7 @@ export class AuthService {
         const { password, ...result } = user;
         const data = {
           _id:user._id,
+          user_id:user.user_id,
           firstname:user.firstname,
           email:user.email,
           role:user.role,
