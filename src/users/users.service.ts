@@ -43,10 +43,12 @@ export class UsersService {
             const salt = await bcrypt.genSalt(10);
             const hash = await bcrypt.hash(data.password, salt);
             const getReferral = generateReferralId(9)
+            const userID = 's' + generateReferralId(19)
             data.createdDate = curDate
             data.updateDate = curDate
             data.password = hash
             data.myReferral = getReferral
+            data.user_id = userID
             const newUser = new this.userModel(data)
             const createdNewUser = new this.userModel(newUser)
             createdNewUser.save();
@@ -66,7 +68,16 @@ export class UsersService {
     }
 
     async findById(id: string) {
-        return await this.userModel.find({ _id: id }).exec();
+        const data = await this.userModel.find({ user_id: id }).exec();
+        const result = {
+            firstname:data[0].firstname,
+            lastname:data[0].lastname,
+            email:data[0].email,
+            user_id:data[0].user_id,
+            clickRefCounter:data[0].clickRefCounter,
+            totalClickRefCounter:data[0].totalClickRefCounter
+        }
+        return result
     }
 
     async updateById(id: string, data: UsersProps) {
@@ -81,9 +92,28 @@ export class UsersService {
         const data = await this.userModel.find({ myReferral: refID })
         const result = {
             myReferral: data[0].myReferral,
-            clickRefCounter: data[0].clickRefCounter
+            clickRefCounter: data[0].clickRefCounter,
+            totalRefCounter: data[0].totalClickRefCounter
         }
         return result
+    }
+
+    async findUserDetail(req, res) {
+        const data = await this.userModel.find().sort({ clickRefCounter: -1 })
+        const result = data.map(detail => {
+            const DataSetting = {
+                user_id: detail.user_id,
+                fullname: detail.firstname + ' ' + detail.lastname,
+                referral: detail.referral,
+                referralToday: detail.clickRefCounter,
+                referralTotal: detail.totalClickRefCounter
+            }
+            return DataSetting
+        })
+        const t = {
+            data: result
+        }
+        return t
     }
 
     async counterByReferralID(refID: string, req) {
